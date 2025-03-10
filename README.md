@@ -43,7 +43,7 @@ private static final String SQS_QUEUE_URL = System.getenv("SQS_QUEUE_URL");
 
 5. **Configure Terraform:** Navigate to the `terraform_configs` folder and open the `terraform.tfvars` file. Update it with your own data, like setting the bucket name to match your S3 bucket. You can also add environment variables that will be accessible from the Lambda function — for example, S3 and SQS parameters in this case.
 
-⚠️ **Don’t forget to set your cloud provider in the `providers.tf` file!**
+⚠️ **Don’t forget to set your cloud provider!!!**
 6. **Initialize and Apply Terraform:**
 
    Run the following Terraform commands:
