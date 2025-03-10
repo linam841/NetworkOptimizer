@@ -1,5 +1,7 @@
 package com.manilvit;
 
+import java.util.Objects;
+
 /**
  * Represents a network connection between two nodes with an associated cost.
  * This class encapsulates the details of a connection between two nodes, including the nodes' identifiers and the cost associated with the connection.
@@ -60,6 +62,26 @@ public class NetworkConnection {
     @Override
     public String toString() {
         return "Node1: " + node1 + ", Node2: " + node2 + ", Cost: " + cost;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof NetworkConnection)) return false;
+        NetworkConnection other = (NetworkConnection) obj;
+        // An edge is considered equal if the set of nodes matches and the cost is the same.
+        return this.cost == other.cost &&
+                ((this.node1 == other.node1 && this.node2 == other.node2) ||
+                        (this.node1 == other.node2 && this.node2 == other.node1));
+    }
+
+    @Override
+    public int hashCode() {
+        // To ensure (1,2) and (2,1) produce the same hashCode, use the sum and product of the nodes
+        int sum = node1 + node2;
+        int prod = node1 * node2;
+        return Objects.hash(sum, prod, cost);
     }
 }
 
