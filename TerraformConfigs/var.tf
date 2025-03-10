@@ -48,7 +48,7 @@ variable "code_version" {
   type        = string
 }
 
-variable "test_bucket" {
+variable "bucket_name" {
   description = "S3 bucket name for testing"
   type        = string
 }
