@@ -61,12 +61,14 @@
         </dependency>
 
         <!-- JUnit (оставляем вашу версию) -->
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.12.0</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

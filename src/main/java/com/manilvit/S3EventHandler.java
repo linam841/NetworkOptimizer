@@ -17,7 +17,6 @@ import software.amazon.awssdk.services.sqs.model.SqsException;
 import java.util.List;
 import java.util.Map;
 
-
 public class S3EventHandler implements RequestHandler<S3EventNotification, String> {
     private static final String EXPECTED_BUCKET = "network-optimization-bucket";
     private static final String SQS_QUEUE_URL = "https://sqs.eu-north-1.amazonaws.com/418272753125/NetworkOptimizer-queue";
@@ -31,7 +30,6 @@ public class S3EventHandler implements RequestHandler<S3EventNotification, Strin
     @Override
     public String handleRequest(S3EventNotification input, Context context) {
         logger = context.getLogger();
-
         List<S3EventNotification.S3EventNotificationRecord> records = input.getRecords();
         if (records.isEmpty()) {
             logger.log("No records found in the event.");
@@ -82,7 +80,6 @@ public class S3EventHandler implements RequestHandler<S3EventNotification, Strin
                 );
 
                 String messageJson = objectMapper.writeValueAsString(message);
-
                 sendToSQS(messageJson);
                 logger.log("Message sent to SQS: " + messageJson);
 
@@ -106,20 +103,14 @@ public class S3EventHandler implements RequestHandler<S3EventNotification, Strin
                     .bucket(bucket)
                     .key(key)
                     .build();
-
-            // Логируем начало загрузки
             logger.log("Downloading file from S3. Bucket: " + bucket + ", Key: " + key);
-
             ResponseBytes<GetObjectResponse> objectBytes = s3Client.getObjectAsBytes(getObjectRequest);
-
-            // Логируем успешную загрузку
             logger.log("File successfully downloaded. Size: " + objectBytes.asUtf8String().length() + " bytes.");
-
             return objectBytes.asUtf8String();
-            //S3Exception
+        } catch (S3Exception s3e) {
+            // Пробрасываем исключение без дополнительного логирования
+            throw s3e;
         } catch (Exception e) {
-            // Логируем ошибку
-            logger.log("Error downloading file from S3. Bucket: " + bucket + ", Key: " + key + ", Error: " + e.getMessage());
             throw new RuntimeException("Error downloading file from S3: " + e.getMessage(), e);
         }
     }
@@ -130,12 +121,11 @@ public class S3EventHandler implements RequestHandler<S3EventNotification, Strin
                     .queueUrl(SQS_QUEUE_URL)
                     .messageBody(messageJson)
                     .build();
-
             sqsClient.sendMessage(sendMessageRequest);
         } catch (SqsException e) {
-            // Логируем ошибку
-            logger.log("Error sending message to SQS: " + e.getMessage());
             throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error sending message to SQS", e);
         }
     }
 }
