@@ -9,7 +9,7 @@ public class KruskalAlgorithm {
 
     public static List<NetworkConnection> findMinimumSpanningTree(List<NetworkConnection> edges, int numNodes) {
         List<NetworkConnection> sortedEdges = new ArrayList<>(edges);
-        Collections.sort(sortedEdges, Comparator.comparingInt(NetworkConnection::getCost));
+        sortedEdges.sort(Comparator.comparingInt(NetworkConnection::getCost));
         List<NetworkConnection> mst = new ArrayList<>();
         UnionFind uf = new UnionFind(numNodes);
         for (NetworkConnection edge : sortedEdges) {

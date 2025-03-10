@@ -1,26 +1,21 @@
 package com.manilvit;
 
-import com.amazonaws.lambda.thirdparty.com.fasterxml.jackson.core.JsonProcessingException;
 import com.amazonaws.lambda.thirdparty.com.fasterxml.jackson.databind.ObjectMapper;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.amazonaws.services.lambda.runtime.events.S3Event;
 import com.amazonaws.services.lambda.runtime.events.models.s3.S3EventNotification;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.S3Exception;
-import software.amazon.awssdk.services.s3.model.S3Object;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 import software.amazon.awssdk.services.sqs.model.SqsException;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class S3EventHandler implements RequestHandler<S3EventNotification, String> {
@@ -59,7 +54,7 @@ public class S3EventHandler implements RequestHandler<S3EventNotification, Strin
                 String fileContent = downloadFile(bucketName, objectKey);
                 logger.log("File content fetched from S3.");
 
-                List<NetworkConnection> connections = NetworkGraphParser.parse(fileContent);
+                List<NetworkConnection> connections = NetworkObjectParser.parse(fileContent);
                 if (connections.isEmpty()) {
                     logger.log("Parsed graph is empty.");
                     return "Parsed graph is empty.";
@@ -79,7 +74,7 @@ public class S3EventHandler implements RequestHandler<S3EventNotification, Strin
                                 "to", conn.getNode2(),
                                 "cost", conn.getCost()
                         ))
-                        .collect(Collectors.toList());
+                        .toList();
 
                 Map<String, Object> message = Map.of(
                         "total_cost", totalCost,
@@ -105,6 +100,7 @@ public class S3EventHandler implements RequestHandler<S3EventNotification, Strin
         }
         return "Processing complete.";
     }
+
     private String downloadFile(String bucket, String key) throws S3Exception {
         try {
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
