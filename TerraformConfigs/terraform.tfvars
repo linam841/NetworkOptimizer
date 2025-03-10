@@ -3,11 +3,11 @@ lambda_memory        = 128
 lambda_runtime       = "java21"
 lambda_handler       = "com.manilvit.S3EventHandler"
 lambda_environment = {
-  EXPECTED_BUCKET = "network-optimization-bucket"
-  SQS_QUEUE_URL   = "https://sqs.eu-north-1.amazonaws.com/418272753125/NetworkOptimizer-queue"
+  EXPECTED_BUCKET = "<your_bucket_name>"
+  SQS_QUEUE_URL   = "<your_sqs_url>"
 }
 lambda_timeout       = 30
-tags                 = { project = "test", owner = "user" }
+tags                 = { project = "NetworkOptimizer", owner = "user" }
 region               = "eu-north-1"
 code_version         = "1.0"
-test_bucket          = "network-optimization-bucket"
+bucket_name          = "network-optimization-bucket"
