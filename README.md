@@ -1,6 +1,6 @@
-# Project Title
+# NetworkOptimizer AWS Lambda
 
-NetworkOptimizer AWS Lambda
+
 
 ## Description
 
@@ -68,6 +68,13 @@ It handles Lambda function requests, downloads a `.txt` file from the S3 bucket,
 The `NetworkObjectParser` has a single method, `parse`, which converts the `.txt` file into a list of `NetworkConnection` objects. Each `NetworkConnection` represents a line in the file.
 
 The `KruskalAlgorithm` is an implementation of the Kruskal algorithm for finding the minimum spanning tree in a graph.
+
+
+## Testing
+
+Inside the project, there are several JUnit tests that cover file parsing and algorithm solution cases.
+
+
 
 ## Authors
 
