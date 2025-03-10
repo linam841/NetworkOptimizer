@@ -24,38 +24,47 @@ To get started, you will need the following tools:
 
    Pull the repository to your local machine.
 
-2. **Configure the Values:**
+2. **Configure the Project:**
 
-   In the `S3EventHandler` class, update the following values:
-
+You can configure your S3 bucket and SQS queue either directly in the code or through Terraform configuration files.
    ```java
-   private static final String EXPECTED_BUCKET = "network-optimization-bucket";
-   private static final String SQS_QUEUE_URL = "https://sqs.eu-north-1.amazonaws.com/418272753125/NetworkOptimizer-queue";
+private static final String EXPECTED_BUCKET = System.getenv("EXPECTED_BUCKET");
+private static final String SQS_QUEUE_URL = System.getenv("SQS_QUEUE_URL");
+```
 
-   Replace the values with your own AWS bucket name and SQS queue URL.
 
-> **Note:** If you are unsure about these values, first execute the Terraform script to create the necessary resources, and then come back to this step.
-
-3. **Package the Project:**
+4. **Package the Project:**
 
    Build the project using Maven:
 
    ```bash
+   mvn clean // optional
    mvn package
 
-4. **Configure terraform::** Go to the TerraformConfigs folder and open the terraform.tfvars file. Update the file with your own data, such as changing the bucket name to match yours. (!!! Don't forget to set your provider !!!)
+5. **Configure Terraform:** Navigate to the `terraform_configs` folder and open the `terraform.tfvars` file. Update it with your own data, like setting the bucket name to match your S3 bucket. You can also add environment variables that will be accessible from the Lambda function — for example, S3 and SQS parameters in this case.
 
-5. **Initialize and Apply Terraform:**
+⚠️ **Don’t forget to set your cloud provider in the `providers.tf` file!**
+6. **Initialize and Apply Terraform:**
 
    Run the following Terraform commands:
 
    ```bash
    terraform init
-   terraform apply
+   terraform apply -auto-approved
+```
 
-  6. **Test the Lambda Function:**
+  7. **Test the Lambda Function:**
 
-   Upload a file to the S3 bucket and check the Lambda function logs and the message pulled from the SQS queue.
+   Upload a file to the S3 bucket and check the Lambda function logs and the message retrieved from the SQS queue.
+   
+   💡 **Tip:** There are some test files in the fixture_data folder — you can download a .txt file from there using this command:
+  
+   ```bash
+   aws s3 cp ../fixture_data/test0.txt s3://<your_bucket_name>/
+   ```
+
+   
+   
 
 
 
@@ -69,10 +78,14 @@ The `NetworkObjectParser` has a single method, `parse`, which converts the `.txt
 
 The `KruskalAlgorithm` is an implementation of the Kruskal algorithm for finding the minimum spanning tree in a graph.
 
+   - **Sort Edges:** Arrange all edges in ascending order based on their weight.
+   - **Cycle Prevention:** Use a Union-Find structure to ensure that adding an edge does not create a cycle.
+   - **Build MST:** Iteratively add edges that connect separate components.
+   - **Graph Basics:** The graph is simply a list of nodes and edges.
 
-## Testing
+## Unit Testing
 
-Inside the project, there are several JUnit tests that cover file parsing and algorithm solution cases.
+Inside the project, there are several JUnit tests that cover file parsing and algorithm solution cases. 
 
 
 
