@@ -61,8 +61,8 @@ resource "aws_iam_policy" "lambda_s3_policy" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:s3:::${var.test_bucket}",
-        "arn:aws:s3:::${var.test_bucket}/*"
+        "arn:aws:s3:::${var.bucket_name}",
+        "arn:aws:s3:::${var.bucket_name}/*"
       ]
     }
   ]
@@ -161,7 +161,7 @@ resource "aws_cloudwatch_log_group" "aws_cli_log_group" {
 # Create S3 Bucket for Uploads
 ###############################
 resource "aws_s3_bucket" "upload_bucket" {
-  bucket = var.test_bucket
+  bucket = var.bucket_name
   tags   = var.tags
 }
 
