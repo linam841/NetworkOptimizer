@@ -21,7 +21,6 @@ import java.util.Map;
 public class S3EventHandler implements RequestHandler<S3EventNotification, String> {
     private static final String EXPECTED_BUCKET = "network-optimization-bucket";
     private static final String SQS_QUEUE_URL = "https://sqs.eu-north-1.amazonaws.com/418272753125/NetworkOptimizer-queue";
-
     private static final S3Client s3Client = S3Client.builder().build();
     private static final SqsClient sqsClient = SqsClient.builder().build();
     private static final ObjectMapper objectMapper = new ObjectMapper();
