@@ -43,7 +43,7 @@ To get started, you will need the following tools:
    ```bash
    mvn package
 
-4. **Configure terraform::** Go to the TerraformConfigs folder and open the terraform.tfvars file. Update the file with your own data, such as changing the bucket name to match yours.
+4. **Configure terraform::** Go to the TerraformConfigs folder and open the terraform.tfvars file. Update the file with your own data, such as changing the bucket name to match yours. (!!! Don't forget to set your provider !!!)
 
 5. **Initialize and Apply Terraform:**
 
