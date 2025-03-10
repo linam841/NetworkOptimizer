@@ -17,8 +17,12 @@ public class NetworkObjectParserTest {
      */
     @Test
     public void testParseValidFile() throws IOException {
-        // Format: first line - number of connections, followed by the connections themselves
-        String fileContent = "3\n1 2 3\n2 3 1\n3 4 4\n";
+        String fileContent = """
+            3
+            1 2 3
+            2 3 1
+            3 4 4
+            """;
         List<NetworkConnection> connections = NetworkObjectParser.parse(fileContent);
 
         assertNotNull(connections, "The list of connections should not be null");
@@ -29,17 +33,18 @@ public class NetworkObjectParserTest {
         assertEquals(1, conn1.getNode1());
         assertEquals(2, conn1.getNode2());
         assertEquals(3, conn1.getCost());
-
-        // Additional checks for other connections can be added here
     }
 
     /**
      * Test case for an invalid line format in the file.
-     * The second line does not conform to the expected format (should contain 3 numbers).
      */
     @Test
     public void testParseInvalidLineFormat() {
-        String fileContent = "2\n1 2 3\ninvalid_line";
+        String fileContent = """
+            2
+            1 2 3
+            invalid_line
+            """;
 
         Exception exception = assertThrows(IOException.class, () -> {
             NetworkObjectParser.parse(fileContent);
@@ -49,11 +54,14 @@ public class NetworkObjectParserTest {
 
     /**
      * Test case for mismatched connection count.
-     * Declared 3 connections, but only 2 were provided.
      */
     @Test
     public void testParseMismatchConnectionCount() {
-        String fileContent = "3\n1 2 3\n2 3 1\n";
+        String fileContent = """
+            3
+            1 2 3
+            2 3 1
+            """;
 
         Exception exception = assertThrows(IOException.class, () -> {
             NetworkObjectParser.parse(fileContent);
@@ -63,11 +71,14 @@ public class NetworkObjectParserTest {
 
     /**
      * Test case for non-numeric first line in the file.
-     * The first line is expected to be a number, so it should throw a NumberFormatException.
      */
     @Test
     public void testParseNonNumericFirstLine() {
-        String fileContent = "not_a_number\n1 2 3\n2 3 1\n";
+        String fileContent = """
+            not_a_number
+            1 2 3
+            2 3 1
+            """;
 
         assertThrows(NumberFormatException.class, () -> {
             NetworkObjectParser.parse(fileContent);
@@ -79,7 +90,12 @@ public class NetworkObjectParserTest {
      */
     @Test
     public void testParseWithExtraWhitespace() throws IOException {
-        String fileContent = " 3 \n 1   2  3 \n2 3    1\n3 4 4\n";
+        String fileContent = """
+            3
+             1   2  3
+            2 3    1
+            3 4 4
+            """;
         List<NetworkConnection> connections = NetworkObjectParser.parse(fileContent);
 
         assertNotNull(connections, "The list of connections should not be null");

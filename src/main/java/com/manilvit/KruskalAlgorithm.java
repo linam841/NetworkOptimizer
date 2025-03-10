@@ -58,6 +58,7 @@ public class KruskalAlgorithm {
          *
          * @param size The number of nodes.
          */
+
         public UnionFind(int size) {
             parent = new int[size];
             rank = new int[size];
@@ -73,6 +74,7 @@ public class KruskalAlgorithm {
          * @param node The node whose set root we want to find.
          * @return The root of the set containing the node.
          */
+
         public int find(int node) {
             if (parent[node] != node) {
                 parent[node] = find(parent[node]); // Path compression

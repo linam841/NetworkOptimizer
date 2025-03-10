@@ -116,7 +116,7 @@ resource "aws_iam_role_policy_attachment" "lambda_sqs_policy" {
 # Define local variable for Lambda payload (JAR file)
 ###############################
 locals {
-  lambda_payload_filename = "../target/NetworkOptimizer-1.0.jar"  # Указываем путь к JAR файлу
+  lambda_payload_filename = "../target/NetworkOptimizer-1.0.jar"  # Specify the path to the JAR file
 }
 
 ###############################

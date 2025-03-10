@@ -22,8 +22,13 @@ import java.util.Map;
  * and then the result is sent to an SQS queue.
  */
 public class S3EventHandler implements RequestHandler<S3EventNotification, String> {
-    private static final String EXPECTED_BUCKET = "network-optimization-bucket"; // The expected S3 bucket name
-    private static final String SQS_QUEUE_URL = "https://sqs.eu-north-1.amazonaws.com/418272753125/NetworkOptimizer-queue"; // URL of the SQS queue
+//    private static final String EXPECTED_BUCKET = "network-optimization-bucket"; // The expected S3 bucket name
+//    private static final String SQS_QUEUE_URL = "https://sqs.eu-north-1.amazonaws.com/418272753125/NetworkOptimizer-queue"; // URL of the SQS queue
+
+    private static final String EXPECTED_BUCKET = System.getenv("EXPECTED_BUCKET");
+    private static final String SQS_QUEUE_URL = System.getenv("SQS_QUEUE_URL");
+
+
     private static final S3Client s3Client = S3Client.builder().build(); // S3 client to interact with S3
     private static final SqsClient sqsClient = SqsClient.builder().build(); // SQS client to interact with SQS
     private static final ObjectMapper objectMapper = new ObjectMapper(); // Jackson object mapper for JSON serialization
@@ -86,6 +91,8 @@ public class S3EventHandler implements RequestHandler<S3EventNotification, Strin
                                 "cost", conn.getCost()
                         ))
                         .toList();
+
+
 
                 Map<String, Object> message = Map.of(
                         "total_cost", totalCost,
