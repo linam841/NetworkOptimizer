@@ -42,11 +42,11 @@ build/
 .idea/
 
 # Terraform
-.terraform.lock.hcl  # если не требуется фиксировать версии провайдеров для команды
-.terraform/
-*.tfstate
-*.tfstate.backup
-tfplan
+TerraformConfigs/.terraform.lock.hcl  # если не требуется фиксировать версии провайдеров для команды
+TerraformConfigs/.terraform/
+TerraformConfigs/*.tfstate
+TerraformConfigs/*.tfstate.backup
+TerraformConfigs/tfplan
 
 # Maven
 dependency-reduced-pom.xml
