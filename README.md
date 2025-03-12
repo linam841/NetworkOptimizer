@@ -52,7 +52,7 @@ private static final String SQS_QUEUE_URL = System.getenv("SQS_QUEUE_URL");
    ```bash
    terraform init
    terraform apply -auto-approved
-```
+   ```
 
   7. **Test the Lambda Function:**
 
