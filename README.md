@@ -26,7 +26,7 @@ To get started, you will need the following tools:
 
 2. **Configure the Project:**
 
-You can configure your S3 bucket and SQS queue either directly in the code or through Terraform configuration files.
+You can configure your S3 bucket and SQS queue either through Terraform configuration files or directly in the code (S3EventHandler class).
    ```java
 private static final String EXPECTED_BUCKET = System.getenv("EXPECTED_BUCKET");
 private static final String SQS_QUEUE_URL = System.getenv("SQS_QUEUE_URL");
